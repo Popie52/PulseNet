@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
-import { SignupDto } from "./dto/auth.dto";
+import { LoginDto, SignupDto } from "./dto/auth.dto";
 import { UseGuards, Req } from "@nestjs/common";
 import { JwtGuard } from "./jwt/jwt.guard";
 
@@ -10,7 +10,7 @@ export class AuthController {
 
     @Get('profile') 
     @UseGuards(JwtGuard)
-    getProfile(@Req() req) {
+    getProfile(@Req() req: { user: any} ) {
         return req.user;
     }
 
@@ -25,7 +25,20 @@ export class AuthController {
     }
 
     @Post("/login")
-    login(@Body() bodyMessage: SignupDto) {
+    login(@Body() bodyMessage: LoginDto) {
         return this.authService.login(bodyMessage);
+    }
+
+    @Post('refresh')
+    async refresh(@Body() body: { refreshToken: string }) {
+        return this.authService.refresh(body.refreshToken);
+    }
+
+    @Post('logout')
+    @UseGuards(JwtGuard)
+    async logout(@Req() req: { user:any }) {
+        const userId = req.user.sub;
+        return this.authService.logout(userId);
+
     }
 }
