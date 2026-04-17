@@ -23,6 +23,6 @@ export class User{
     @Column({default: true})
     is_active: boolean;
 
-    @Column({nullable: true})
+    @Column({type: 'text' , nullable: true})
     refresh_token: string | null;
 }
