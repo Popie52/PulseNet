@@ -12,6 +12,7 @@ func main() {
 		fmt.Fprintf(w, "OK")
 	})
 	http.HandleFunc("/send", handlers.SendMessage)
+	http.HandleFunc("/get", handlers.GetMessage)
 
 	db.InitDB()
 
