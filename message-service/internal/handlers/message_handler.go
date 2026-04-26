@@ -31,14 +31,13 @@ type SendMessageRequest struct {
 }
 
 type GetMessageResponse struct {
-	Messages 		[]MessageDTO		`json:"messages"`
+	Messages 		[]MessageDTO					`json:"messages"`
 	NextCursor 		*string							`json:"next_cursor,omitempty"`
 }
 
 type ErrorResponse struct {
 	Error string `json:"error"`
 }
-
 
 func encodeCursor(c Cursor) (string, error) {
 	b, err := json.Marshal(c)
